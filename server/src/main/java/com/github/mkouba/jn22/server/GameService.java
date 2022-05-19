@@ -59,7 +59,7 @@ public class GameService implements Game {
                     serverMessage("Player %s sent a wrong response or was too late...", player);
                 }
             }
-        });
+        }, t -> Log.error(t.getMessage()));
         return serverMessages;
     }
 
