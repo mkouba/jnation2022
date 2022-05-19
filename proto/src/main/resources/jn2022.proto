@@ -4,8 +4,6 @@ option java_multiple_files = true;
 option java_package = "com.github.mkouba.jn22";
 option java_outer_classname = "GameProto";
 
-import "google/protobuf/empty.proto";
-
 package jn2022;
 
 service Game {
