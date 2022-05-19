@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.github.mkouba.jn22";
+option java_outer_classname = "GameProto";
+
+import "google/protobuf/empty.proto";
+
+package jn2022;
+
+service Game {
+
+    rpc Play (stream ExerciseResult) returns (stream ServerMessage) {}
+    
+    rpc Join (JoinRequest) returns (JoinResult) {}
+    
+}
+
+message ExerciseResult {
+    int64 response = 1;
+    string token = 2;
+}
+
+message JoinRequest {
+     string name = 1;
+}
+
+message JoinResult {
+     string player = 1;
+     string token = 2;
+     string currentTask = 3;
+}
+
+message ServerMessage {
+     string text = 1;
+}
