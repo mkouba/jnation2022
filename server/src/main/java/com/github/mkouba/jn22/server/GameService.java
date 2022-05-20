@@ -52,11 +52,15 @@ public class GameService implements Game {
             if (player == null) {
                 Log.info("Unregistered player token: " + r.getToken());
             } else {
-                if (r.getResponse() == exercise.expectedResult && exercise.tryWin(player)) {
-                    serverMessage("Player %s won!", player);
-                    exercise = nextExercise();
+                if (r.getResponse() == exercise.expectedResult) {
+                    if (exercise.tryWin(player)) {
+                        serverMessage("Player %s won!", player);
+                        exercise = nextExercise();
+                    } else {
+                        serverMessage("Player %s was too late...", player);
+                    }
                 } else {
-                    serverMessage("Player %s sent a wrong response or was too late...", player);
+                    serverMessage("Player %s sent a wrong response...", player);
                 }
             }
         }, t -> Log.error(t.getMessage()));

@@ -28,7 +28,7 @@ public class PlayGame implements QuarkusApplication {
     @Override
     public int run(String... args) {
         if (args.length == 0) {
-            System.out.println("Type your name...");
+            Console.red("Type your name...");
             return 1;
         }
 
@@ -38,11 +38,11 @@ public class PlayGame implements QuarkusApplication {
                 .atMost(Duration.ofSeconds(10));
 
         String token = joinResult.getToken();
-        
+
         logHeader(joinResult);
 
         game.play(results).subscribe().with(sm -> {
-            System.out.println(sm.getText());
+            Console.green(sm.getText());
         }, t -> Log.error(t.getMessage()));
 
         gameLoop(token, results);
@@ -51,10 +51,10 @@ public class PlayGame implements QuarkusApplication {
     }
 
     private void logHeader(JoinResult r) {
-        System.out.println("=".repeat(30));
-        System.out.println("Joined the game as player " + r.getPlayer());
-        System.out.println("The current exercise is: " + r.getCurrentTask());
-        System.out.println("=".repeat(30));
+        Console.cyan("=".repeat(40));
+        Console.println("Joined the game as player %s", r.getPlayer());
+        Console.println("The current exercise is: %s", r.getCurrentTask());
+        Console.cyan("=".repeat(40));
     }
 
     private void gameLoop(String token, UnicastProcessor<ExerciseResult> results) {
@@ -65,7 +65,7 @@ public class PlayGame implements QuarkusApplication {
                 long result = Long.parseLong(resultStr);
                 results.onNext(ExerciseResult.newBuilder().setToken(token).setResponse(result).build());
             } catch (NumberFormatException e) {
-                System.out.println(resultStr + " is not a long value");
+                Console.red("%s is not a long value", resultStr);
             }
         }
     }
